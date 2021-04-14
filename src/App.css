@@ -132,6 +132,39 @@ Image Formatting
         'source source';
 }
 
+.grid-extraRow{
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    /* grid stying */
+    visibility: visible;
+    display: grid;
+    grid-template-areas: 
+        'title title'
+        'xAxisT xAxisT'
+        'yAxis graph'
+        'xAxis xAxis'
+        'source source';
+}
+
+.grid-extraCol{
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    /* grid stying */
+    visibility: visible;
+    display: grid;
+    grid-template-areas: 
+        'title title title'
+        'yAxis graph points'
+        'xAxis xAxis xAxis'
+        'source source source';
+}
+
 .title{
     grid-area: title;
     color: white;
@@ -150,6 +183,15 @@ Image Formatting
     visibility: inherit;
 }
 
+.points{
+    grid-area: points;
+    color: white;
+    text-align: center;
+    background-color: var(--blue-green);
+    opacity: .5;
+    visibility: inherit;
+}
+
 .graph{
     grid-area: graph;
     color: white;
@@ -161,6 +203,15 @@ Image Formatting
 
 .xAxis{
     grid-area: xAxis;
+    color: white;
+    text-align: center;
+    background-color: cornflowerblue;
+    opacity: .5;
+    visibility: inherit;
+}
+
+.xAxisT{
+    grid-area: xAxisT;
     color: white;
     text-align: center;
     background-color: cornflowerblue;
@@ -305,4 +356,23 @@ Slider Formatting
     justify-content: center;
     flex-direction: column;
     width: 75vw;
+}
+
+/************
+    App Row
+************/
+
+.menu-row{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 1rem;
+}
+
+.radio-col{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
 }
