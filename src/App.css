@@ -299,15 +299,15 @@ Slider Formatting
     flex-wrap: wrap;
     align-items: flex-start;
     justify-content: center;
-    padding: 2rem 1rem;
+    padding: 2rem 8rem;
 }
 
 .form-item{
     margin-bottom: 1rem;
+    padding: 0.65rem;
     display: flex;
     flex-direction: column;
     width: 100%;
-    padding: .5rem;
     border-radius: .5rem;
     background-color: var(--blue-green);
 }

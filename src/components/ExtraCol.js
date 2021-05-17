@@ -41,7 +41,7 @@ function ExtraCol() {
       {val: 'xAxis', option: 'X-Axis'},
       {val: 'yAxis', option: 'Y-Axis'},
       {val: 'graph', option: 'Graph'},
-      {val: 'points', option: 'points'}
+      {val: 'points', option: 'Points'}
   ]
 
   useEffect(() => {
@@ -76,34 +76,45 @@ function ExtraCol() {
   };
 
   const handleImageSubmit = () => {
-    console.log("here");
-    setLinkSubmit(true);
-  };
-
-  const handleNumberSubmit = () => {
-    setNumSubmit(true);
+    if(link.match(/\.(jpeg|jpg|gif|png)$/) != null){
+      setLinkSubmit(true);
+      setNumSubmit(true);
+    }else{
+      alert('Please paste a valid image link: .png, .jpg, .gif')
+    }
   };
 
   const exportHTML = () => {
     var shownTxt = "[ ", titleTxt = "[ ", infoTxt = "[ "
+    let count = 0
     for (var key in shownComp){
       if(shownComp.hasOwnProperty(key)){
+        count++
         shownTxt = shownTxt + "'"  + String(shownComp[key]) + "', "
       }
     }
+    console.log(count)
     shownTxt = shownTxt + "]"
     for( var key in compTitle){
       if(compTitle.hasOwnProperty(key)){
+        count++
         titleTxt = titleTxt + "'" + String(compTitle[key]) + "', "
       }
     }
+    console.log(count)
     titleTxt = titleTxt + "]"
     for (var key in compInfo){
       if(compInfo.hasOwnProperty(key)){
+        count++
         infoTxt = infoTxt + "'" + String(compInfo[key]) + "', "
       }
     }
+    console.log(count)
     infoTxt = infoTxt + "]"
+    if(count !== 21){
+      alert('Please complete the form')
+      return 
+    }
     console.log(shownTxt, titleTxt, infoTxt)
     var htmlDoc = `<!DOCTYPE html><html> <head> <meta charset="utf-8"> <meta http-equiv="X-UA-Compatible" content="IE=edge"> <title></title> <meta name="description" content="> <meta name="viewport" content="width=device-width, initial-scale=1"> <style> @import url('https://fonts.googleapis.com/css2?family=Bitter:wght@400;500;700&display=swap'); *{ box-sizing: border-box; margin: 0; padding: 0; font-family: "Bitter", 'Times New Roman', Times, serif ; } .container{ display: flex; flex-direction: row; } /* Image Component */ .img-comp{ flex: 2; position: relative; display: block; } .responsive{ width: 100%; height: auto; display: block; } .grid{ position: absolute; top: 0; left: 0; height: 100%; width: 100%; /* grid stying */ visibility: hidden; display: grid; grid-template: ${gridNums.a}% ${gridNums.b}% ${gridNums.c}% ${gridNums.d}% / ${gridNums.e}% ${gridNums.f}% ${gridNums.g}%; grid-template-areas: 'title title title' 'yAxis graph points' 'xAxis xAxis xAxis' 'source source source'; } .title{ grid-area: title; background-color: black; opacity: .75; visibility: inherit; } .yAxis{ grid-area: yAxis; background-color: black; opacity: .75; visibility: inherit; } .graph{ grid-area: graph; background-color: black; opacity: .75; visibility: inherit; } .important-points{ grid-area: points; background-color: black; opacity: .75; visibility: inherit; } .xAxis{ grid-area: xAxis; background-color: black; opacity: .75; visibility: inherit; } .source{ grid-area: source; background-color: black; opacity: .75; visibility: inherit; } /* Info Component */ .info-comp{ flex: 1; padding-left: .5rem; display: flex; flex-direction: column; align-items: center; } .headline { font-weight: 700; font-size: 1.75vw; color: rgb(19, 133, 185); } .comp-title{ margin-top: 1.25vw; font-weight: 500; font-size: 1.75vw; margin-bottom: 1.25vw; } .comp-info{ font-weight: 400; font-size: 1.5vw; letter-spacing: 1px; line-height: 1; margin-left: 1.5vw; margin-right: 1vw; margin-bottom: 3.5vw; } /* Javascript Stuff */ .btn-group { display: flex; flex-direction: row; justify-content: space-around; align-items: center; } .btn { display: flex; color: #fff; font-size: 1.75vw; letter-spacing: 1px; line-height: 1; outline: 0; border: none; padding: 1.2vw; background-color: black; margin: 1.5vw; } .btn:hover{ background-color: rgb(19, 133, 185); cursor: pointer; } </style> </head> <body> <div class="container"> <div class="img-comp"> <a href="https://ourworldindata.org/world-population-growth#how-has-world-population-growth-changed-over-time" target="_blank" rel="noopener noreferrer"> <img src="${link}" alt="graph" width="700px" height="435px" class="responsive"/> </a> <a href="https://ourworldindata.org/world-population-growth#how-has-world-population-growth-changed-over-time" target="_blank" rel="noopener noreferrer"> <div class="grid" id="grid"> <div class="title" id="title"></div> <div class="yAxis" id="yAxis"></div> <div class="important-points" id="points"></div> <div class="graph" id="graph"></div> <div class="xAxis" id="xAxis"></div> <div class="source" id="source"></div> </div> </a> </div> <div class="info-comp"> <h1 class="headline">${title}</h1> <h3 class="comp-title" id="comp-title">Click Next to begin</h3> <h5 class="comp-info" id="comp-info"></h5> <div class="btn-group"> <button class="btn" onclick="backClick()">Back</button> <button class="btn" onclick="nextClick()">Next</button> </div> </div> </div> <script> let comp_title = ${titleTxt}; let comp_content = ${infoTxt}; let id_table = ${shownTxt}; let index = 0; function nextClick(){ ++index; if(index > comp_title.length-1){ for(var i = 1; i < comp_title.length; ++i){ document.getElementById(id_table[i]).style.visibility = "inherit"; } document.getElementById(id_table[0]).style.visibility = "hidden"; index = 0 }else{ document.getElementById(id_table[index-1]).style.visibility = "visible"; } console.log(index); document.getElementById(id_table[index]).style.visibility = "hidden"; document.getElementById("comp-title").innerHTML = comp_title[index]; document.getElementById("comp-info").innerHTML = comp_content[index]; } function backClick(){ --index; if(index < 0){ index = comp_title.length-1; document.getElementById(id_table[0]).style.visibility = "visible"; }else{ document.getElementById(id_table[index+1]).style.visibility = "visible"; } if(index === 0){ for(var i = 1; i < comp_title.length; ++i){ document.getElementById(id_table[i]).style.visibility = "inherit"; } document.getElementById(id_table[0]).style.visibility = "hidden"; } console.log(index); document.getElementById(id_table[index]).style.visibility = "hidden"; document.getElementById("comp-title").innerHTML = comp_title[index]; document.getElementById("comp-info").innerHTML = comp_content[index]; } </script> </body></html>`
     document.getElementById('export-box').innerHTML = htmlDoc
@@ -438,11 +449,6 @@ function ExtraCol() {
       ) : (
         <div></div>
       )}
-      <div className="form-row">
-        <button className="submit-btn" onClick={handleNumberSubmit}>
-          Generate Form
-        </button>
-      </div>
       {numSubmit ? (
         <div>
         <div className="lister">
